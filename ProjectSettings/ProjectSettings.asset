@@ -589,7 +589,25 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   webProgressiveAssetLoading: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: DOTWEEN;DOTWEEN_NOPHYSICS
+    EmbeddedLinux: DOTWEEN;DOTWEEN_NOPHYSICS
+    GameCoreScarlett: DOTWEEN;DOTWEEN_NOPHYSICS
+    GameCoreXboxOne: DOTWEEN;DOTWEEN_NOPHYSICS
+    Kepler: DOTWEEN;DOTWEEN_NOPHYSICS
+    LinuxHeadlessSimulation: DOTWEEN;DOTWEEN_NOPHYSICS
+    Nintendo Switch: DOTWEEN;DOTWEEN_NOPHYSICS
+    Nintendo Switch 2: DOTWEEN;DOTWEEN_NOPHYSICS
+    PS4: DOTWEEN;DOTWEEN_NOPHYSICS
+    PS5: DOTWEEN;DOTWEEN_NOPHYSICS
+    QNX: DOTWEEN;DOTWEEN_NOPHYSICS
+    Standalone: DOTWEEN;DOTWEEN_NOPHYSICS
+    VisionOS: DOTWEEN;DOTWEEN_NOPHYSICS
+    WebGL: DOTWEEN;DOTWEEN_NOPHYSICS
+    Windows Store Apps: DOTWEEN;DOTWEEN_NOPHYSICS
+    XboxOne: DOTWEEN;DOTWEEN_NOPHYSICS
+    iPhone: DOTWEEN;DOTWEEN_NOPHYSICS
+    tvOS: DOTWEEN;DOTWEEN_NOPHYSICS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -690,11 +708,11 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: 
+  cloudProjectId: 173163ea-f690-4a39-aec0-5e89dc7a987d
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Arcade2DTest
+  organizationId: unity_31b5e2ff75eb07a319fd
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
