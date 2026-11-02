@@ -5923,17 +5923,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
-      propertyPath: _airFriction
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
       propertyPath: _debugRandom
       value: 
       objectReference: {fileID: 1662278929}
-    - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
-      propertyPath: _groundFriction
-      value: 0.85
-      objectReference: {fileID: 0}
     - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
       propertyPath: _debugVelocityText
       value: 

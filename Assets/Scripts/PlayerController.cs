@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _raycastGroundLayer;
     [SerializeField] private Vector2 _raycastGroundSize;
     [SerializeField] private float _raycastGroundDistance;
+    
+    [Header("Dash")]
+    [SerializeField] private float _dashForce;
+    [SerializeField] private float _dashTime;
+    [SerializeField] private int _dashAmount;
+    [SerializeField] private AnimationCurve _dashCurve;
 
     [Header("Kayote Input Buffer")] 
     [SerializeField] private float _inputBufferTime;
@@ -37,6 +43,11 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
+    
+    private Vector2 _dashDirection;
+    private int _currentDashAmount;
+    private float _currentDashTime;
+
 
     private InputBuffer _jumpBuffer;
     
@@ -53,7 +64,11 @@ public class PlayerController : MonoBehaviour
         isGrounded = IsGrounded();
         groundStateChange = isGrounded != groundStateChange;
         
-        if (groundStateChange && isGrounded) _jumpBuffer.TryInput();
+        if (groundStateChange && isGrounded)
+        {
+            _currentDashAmount = _dashAmount;
+            _jumpBuffer.TryInput();
+        }
         
         Vector2 newVelocity = Vector2.zero;
         
@@ -63,7 +78,6 @@ public class PlayerController : MonoBehaviour
                 newVelocity.y = _rb.linearVelocity.y;
                 float currentFriction = isGrounded ? _groundFriction : _airFriction;
                 newVelocity.x = Mathf.Lerp( _rb.linearVelocity.x, _moveSpeed * _moveInput.x,currentFriction);
-
                 break;
         }
         
@@ -132,11 +146,23 @@ public class PlayerController : MonoBehaviour
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
-        Debug.Log("Attack");   
+        Debug.Log("Attack");
     }
     public void OnDash(InputAction.CallbackContext context)
     {
-        Debug.Log("Dash");   
+        if (playerState == PlayerState.Base && _currentDashAmount > 0)
+        {
+            Dash();
+        }
+    }
+
+    public void Dash()
+    {
+        if(_currentDashAmount > 0)
+        {
+            _dashDirection = _moveInput.normalized;
+            _currentDashAmount--;
+        }
     }
 
     public void FreezePlayer(bool freeze)
