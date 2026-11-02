@@ -128,12 +128,13 @@ MonoBehaviour:
     m_Bits: 64
   _raycastGroundSize: {x: 0.75, y: 0.2}
   _raycastGroundDistance: 0.95
-  _inputBufferTime: 0.125
+  _inputBufferTime: 1.25
   _debugUpdateDebugText: 1
   _debugIsGroundedText: {fileID: 0}
   _debugIsInputBufferingText: {fileID: 0}
   _debugInBufferTimerText: {fileID: 0}
   _debugVelocityText: {fileID: 0}
+  isGrounded: 0
 --- !u!114 &8023966666104609614
 MonoBehaviour:
   m_ObjectHideFlags: 0

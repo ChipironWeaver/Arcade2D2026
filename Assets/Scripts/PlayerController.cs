@@ -25,45 +25,31 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _debugIsInputBufferingText;
     [SerializeField] private TextMeshProUGUI _debugInBufferTimerText;
     [SerializeField] private TextMeshProUGUI _debugVelocityText;
-    
-    
-    private bool _isInputBuffering;
-    private float _inputBufferTimer;
+
+    public bool isGrounded;
     
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
-    
+
+    private InputBuffer _jumpBuffer;
     
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _jumpBuffer = new InputBuffer(_inputBufferTime);
+        _jumpBuffer.inputCompleteEvent.AddListener(Jump);
     }
 
     void FixedUpdate()
     {
-        bool isGrounded = IsGrounded();
+        bool justLanded = isGrounded;
+        isGrounded = IsGrounded();
+        justLanded = isGrounded != justLanded;
         
-        if (_isInputBuffering)
-        {
-            if (isGrounded)
-            {
-                Jump();
-                _isInputBuffering = false;
-            }
-            else
-            {
-                _inputBufferTimer += Time.deltaTime;
-                if (_inputBufferTimer >= _inputBufferTime)
-                {
-                    _isInputBuffering = false;
-                }
-            }
-        }
+        if (justLanded) _jumpBuffer.TryInput();
         
         Vector2 newVelocity = _rb.linearVelocity;
-        
         newVelocity.x = _moveInput.x * _moveSpeed;
-        
         _rb.linearVelocity = newVelocity;
         
         if(_debugUpdateDebugText) UpdateDebugText();
@@ -79,8 +65,8 @@ public class PlayerController : MonoBehaviour
     private void UpdateDebugText()
     {
         _debugIsGroundedText.text = $"Is Grounded: {IsGrounded()}";
-        _debugIsInputBufferingText.text = $"Is Buffering: {_isInputBuffering}";
-        _debugInBufferTimerText.text = $"Input Buffer Timer: {_inputBufferTimer}";
+        _debugIsInputBufferingText.text = $"Is Buffering: {_jumpBuffer.isPressed}";
+        _debugInBufferTimerText.text = $"Input Buffer Timer: {Time.unscaledTime - _jumpBuffer.lastPress}";
         _debugVelocityText.text = $"Velocity: {_rb.linearVelocity.x} x , {_rb.linearVelocity.y} y";
     }
 
@@ -104,8 +90,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                _isInputBuffering = true;
-                _inputBufferTimer = 0;
+                _jumpBuffer.RegisterInput();
             }
         }
     }
