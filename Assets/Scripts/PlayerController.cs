@@ -1,7 +1,9 @@
+using System.Numerics;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Vector2 = UnityEngine.Vector2;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -9,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
+    [SerializeField] private float _groundFriction;
+    [SerializeField] private float _airFriction;
     
     [Header("Ground Check Parameter")]
     [SerializeField] private LayerMask _raycastGroundLayer;
@@ -25,8 +29,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _debugIsInputBufferingText;
     [SerializeField] private TextMeshProUGUI _debugInBufferTimerText;
     [SerializeField] private TextMeshProUGUI _debugVelocityText;
+    [SerializeField] private TextMeshProUGUI _debugPlayerStateText;
+    [SerializeField] private TextMeshProUGUI _debugRandom;
 
     public bool isGrounded;
+    public PlayerState playerState = PlayerState.Base;
     
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
@@ -42,32 +49,61 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool justLanded = isGrounded;
+        bool groundStateChange = isGrounded;
         isGrounded = IsGrounded();
-        justLanded = isGrounded != justLanded;
+        groundStateChange = isGrounded != groundStateChange;
         
-        if (justLanded) _jumpBuffer.TryInput();
+        if (groundStateChange && isGrounded) _jumpBuffer.TryInput();
         
-        Vector2 newVelocity = _rb.linearVelocity;
-        newVelocity.x = _moveInput.x * _moveSpeed;
+        Vector2 newVelocity = Vector2.zero;
+        
+        switch(playerState)
+        {
+            case PlayerState.Base:
+                newVelocity.y = _rb.linearVelocity.y;
+                float currentFriction = isGrounded ? _groundFriction : _airFriction;
+                newVelocity.x = Mathf.Lerp( _rb.linearVelocity.x, _moveSpeed * _moveInput.x,currentFriction);
+
+                break;
+        }
+        
+        
         _rb.linearVelocity = newVelocity;
         
         if(_debugUpdateDebugText) UpdateDebugText();
     }
     
+    public bool SwitchPlayerState (PlayerState newState, bool force = false)
+    {
+        switch (playerState)
+        {
+            case PlayerState.Frozen:
+                if (!force) return false; 
+                _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                break;
+        }
+        switch (newState)
+        {
+            case PlayerState.Frozen:
+                _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                break;
+        }
+        return true;
+    }
+    
     private bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.BoxCast(transform.position, _raycastGroundSize, 0, Vector2.down, _raycastGroundDistance,_raycastGroundLayer);
-
         return hit.collider;
     }
 
     private void UpdateDebugText()
     {
         _debugIsGroundedText.text = $"Is Grounded: {IsGrounded()}";
-        _debugIsInputBufferingText.text = $"Is Buffering: {_jumpBuffer.isPressed}";
-        _debugInBufferTimerText.text = $"Input Buffer Timer: {Time.unscaledTime - _jumpBuffer.lastPress}";
-        _debugVelocityText.text = $"Velocity: {_rb.linearVelocity.x} x , {_rb.linearVelocity.y} y";
+        _debugIsInputBufferingText.text = $"Is Jump Buffering: {_jumpBuffer.isPressed}";
+        _debugInBufferTimerText.text = $"Input Jump Buffer Timer: {Time.unscaledTime - _jumpBuffer.lastPress :F}";
+        _debugVelocityText.text = $"Velocity: {_rb.linearVelocity.x :F} x , {_rb.linearVelocity.y :F} y";
+        _debugPlayerStateText.text = $"Player State: {playerState}";
     }
 
     public void Jump()
@@ -82,7 +118,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && playerState == PlayerState.Base)
         {
             if (IsGrounded())
             {
@@ -101,5 +137,18 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         Debug.Log("Dash");   
+    }
+
+    public void FreezePlayer(bool freeze)
+    {
+        SwitchPlayerState(freeze ? PlayerState.Frozen : PlayerState.Base);        
+    }
+
+    public enum PlayerState
+    {
+        Base,
+        Frozen,
+        Dashing,
+        Attacking,
     }
 }
