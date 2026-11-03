@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerState.Dashing:
                 _rb.gravityScale = _gravityScaleMemory;
+                if(isGrounded) _currentDashAmount = _dashAmount;
                 break;
         }
         switch (newState)
@@ -174,10 +175,12 @@ public class PlayerController : MonoBehaviour
     }
     public void OnDash(InputAction.CallbackContext context)
     {
-        Debug.Log("Dash?");
-        if (playerState == PlayerState.Base && _currentDashAmount > 0)
+        if(context.performed && _currentDashAmount > 0 )
         {
-            Dash();
+            if (playerState == PlayerState.Base )
+            {
+                Dash();
+            }
         }
     }
 
@@ -185,10 +188,8 @@ public class PlayerController : MonoBehaviour
     {
         if(_currentDashAmount > 0)
         {
-            Debug.Log("Dash");
             if (Mathf.Approximately(_moveInput.x, 0) && Mathf.Approximately(_moveInput.y, 0))
             {
-                Debug.Log($"Move input is  {_moveInput.x} / {_moveInput.y} so now it's {_xMoveInputMemory} / 0");
                 _dashDirection = Vector2.zero;
                 _dashDirection.x = _xMoveInputMemory;
                 _dashDirection.Normalize();

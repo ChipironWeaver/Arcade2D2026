@@ -13926,6 +13926,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
+      propertyPath: _moveSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
       propertyPath: _debugRandom
       value: 
       objectReference: {fileID: 1662278929}
@@ -13941,6 +13945,10 @@ PrefabInstance:
       propertyPath: _debugIsGroundedText
       value: 
       objectReference: {fileID: 117753039}
+    - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
+      propertyPath: _raycastGroundSize.x
+      value: 0.99
+      objectReference: {fileID: 0}
     - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
       propertyPath: _debugPlayerStateText
       value: 
