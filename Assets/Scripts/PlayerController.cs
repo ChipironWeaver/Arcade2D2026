@@ -1,4 +1,5 @@
 using System.Numerics;
+using NaughtyAttributes;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
@@ -23,9 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashForce;
     [SerializeField] private float _dashTime;
     [SerializeField] private int _dashAmount;
-    [SerializeField] private AnimationCurve _dashCurve;
+    [SerializeField,CurveRange(0,0,1,1,EColor.Pink)] private AnimationCurve _dashCurve;
 
-    [Header("Kayote Input Buffer")] 
+    [Header("Kayote and Input Buffer")] 
     [SerializeField] private float _inputBufferTime;
     
     
@@ -36,19 +37,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _debugInBufferTimerText;
     [SerializeField] private TextMeshProUGUI _debugVelocityText;
     [SerializeField] private TextMeshProUGUI _debugPlayerStateText;
+    [SerializeField] private TextMeshProUGUI _debugDashAmountText;
     [SerializeField] private TextMeshProUGUI _debugRandom;
 
-    public bool isGrounded;
-    public PlayerState playerState = PlayerState.Base;
+    [ReadOnly] public bool isGrounded;
+    [ReadOnly] public PlayerState playerState = PlayerState.Base;
     
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
+    private float _xMoveInputMemory;
     
     private Vector2 _dashDirection;
     private int _currentDashAmount;
     private float _currentDashTime;
-
-
+    
     private InputBuffer _jumpBuffer;
     
     void Start()
@@ -79,8 +81,19 @@ public class PlayerController : MonoBehaviour
                 float currentFriction = isGrounded ? _groundFriction : _airFriction;
                 newVelocity.x = Mathf.Lerp( _rb.linearVelocity.x, _moveSpeed * _moveInput.x,currentFriction);
                 break;
+            case PlayerState.Dashing:
+                newVelocity = _dashForce  * _dashDirection ;
+                if (_currentDashTime > _dashTime)
+                {
+                    newVelocity.y *= 0.5f;
+                    SwitchPlayerState(PlayerState.Base);
+                }
+                else
+                { //* _dashCurve.Evaluate(_currentDashTime / _dashTime)
+                    _currentDashTime += Time.deltaTime;
+                }
+                break;
         }
-        
         
         _rb.linearVelocity = newVelocity;
         
@@ -102,6 +115,8 @@ public class PlayerController : MonoBehaviour
                 _rb.constraints = RigidbodyConstraints2D.FreezeAll;
                 break;
         }
+
+        playerState = newState;
         return true;
     }
     
@@ -118,6 +133,7 @@ public class PlayerController : MonoBehaviour
         _debugInBufferTimerText.text = $"Input Jump Buffer Timer: {Time.unscaledTime - _jumpBuffer.lastPress :F}";
         _debugVelocityText.text = $"Velocity: {_rb.linearVelocity.x :F} x , {_rb.linearVelocity.y :F} y";
         _debugPlayerStateText.text = $"Player State: {playerState}";
+        _debugDashAmountText.text = $"Dash Amount: {_currentDashAmount} / {_dashAmount}";
     }
 
     public void Jump()
@@ -129,6 +145,7 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         _moveInput = context.ReadValue<Vector2>();
+        if (_moveInput.x != 0) _xMoveInputMemory = _moveInput.x;
     }
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -146,10 +163,10 @@ public class PlayerController : MonoBehaviour
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
-        Debug.Log("Attack");
     }
     public void OnDash(InputAction.CallbackContext context)
     {
+        Debug.Log("Dash?");
         if (playerState == PlayerState.Base && _currentDashAmount > 0)
         {
             Dash();
@@ -160,8 +177,21 @@ public class PlayerController : MonoBehaviour
     {
         if(_currentDashAmount > 0)
         {
-            _dashDirection = _moveInput.normalized;
+            Debug.Log("Dash");
+            if (Mathf.Approximately(_moveInput.x, 0) && Mathf.Approximately(_moveInput.y, 0))
+            {
+                Debug.Log($"Move input is  {_moveInput.x} / {_moveInput.y} so now it's {_xMoveInputMemory} / 0");
+                _dashDirection = Vector2.zero;
+                _dashDirection.x = _xMoveInputMemory;
+                _dashDirection.Normalize();
+            }
+            else
+            {
+                _dashDirection = _moveInput.normalized;
+            }
+            _currentDashTime = 0f;
             _currentDashAmount--;
+            SwitchPlayerState(PlayerState.Dashing);
         }
     }
 

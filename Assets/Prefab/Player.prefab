@@ -130,6 +130,51 @@ MonoBehaviour:
     m_Bits: 64
   _raycastGroundSize: {x: 0.75, y: 0.2}
   _raycastGroundDistance: 0.95
+  _dashForce: 15
+  _dashTime: 0.25
+  _dashAmount: 1
+  _dashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.01996231
+      value: 0.35109562
+      inSlope: 1.9671046
+      outSlope: 1.9671046
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.054842092
+    - serializedVersion: 3
+      time: 0.36197692
+      value: 0.8773837
+      inSlope: 0.5979805
+      outSlope: 0.5979805
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.13321157
+    - serializedVersion: 3
+      time: 0.768178
+      value: 0.7610946
+      inSlope: -1.819316
+      outSlope: -1.819316
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.15299349
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.7465567
+      outSlope: -0.7465567
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22312106
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _inputBufferTime: 0.25
   _debugUpdateDebugText: 1
   _debugIsGroundedText: {fileID: 0}
@@ -137,6 +182,7 @@ MonoBehaviour:
   _debugInBufferTimerText: {fileID: 0}
   _debugVelocityText: {fileID: 0}
   _debugPlayerStateText: {fileID: 0}
+  _debugDashAmountText: {fileID: 0}
   _debugRandom: {fileID: 0}
   isGrounded: 0
   playerState: 0
