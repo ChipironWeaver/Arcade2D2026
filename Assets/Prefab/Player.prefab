@@ -97,7 +97,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0.1
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2.5
   m_Material: {fileID: 6200000, guid: 9fd071f0ad9a4434d8047d38384032df, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af36b4fa904b96140a1b167e4dffd19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _moveSpeed: 5
-  _jumpForce: 5
+  _moveSpeed: 6.7
+  _jumpForce: 12
   _groundFriction: 0.85
   _airFriction: 0.15
   _raycastGroundLayer:
@@ -130,8 +130,8 @@ MonoBehaviour:
     m_Bits: 64
   _raycastGroundSize: {x: 0.75, y: 0.2}
   _raycastGroundDistance: 0.95
-  _dashForce: 15
-  _dashTime: 0.25
+  _dashForce: 20
+  _dashTime: 0.1
   _dashAmount: 1
   _dashCurve:
     serializedVersion: 2

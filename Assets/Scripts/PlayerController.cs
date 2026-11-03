@@ -52,12 +52,14 @@ public class PlayerController : MonoBehaviour
     private float _currentDashTime;
     
     private InputBuffer _jumpBuffer;
+    private float _gravityScaleMemory;
     
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _jumpBuffer = new InputBuffer(_inputBufferTime);
         _jumpBuffer.inputCompleteEvent.AddListener(Jump);
+        _gravityScaleMemory = _rb.gravityScale;
     }
 
     void FixedUpdate()
@@ -108,11 +110,17 @@ public class PlayerController : MonoBehaviour
                 if (!force) return false; 
                 _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 break;
+            case PlayerState.Dashing:
+                _rb.gravityScale = _gravityScaleMemory;
+                break;
         }
         switch (newState)
         {
             case PlayerState.Frozen:
                 _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                break;
+            case PlayerState.Dashing:
+                _rb.gravityScale = 0;
                 break;
         }
 
