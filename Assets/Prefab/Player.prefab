@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3448925800456303863}
   - component: {fileID: 6757251180835549360}
   - component: {fileID: 2709844319819125279}
+  - component: {fileID: 4992783990515733210}
   - component: {fileID: 8023966666104609614}
   m_Layer: 3
   m_Name: Player
@@ -123,14 +124,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _moveSpeed: 8
   _jumpForce: 12
-  _groundFriction: 0.85
-  _airFriction: 0.15
+  _groundFriction: 0.6
+  _airFriction: 0.3
+  _xKnockbackDecayMultiplier: 0.05
+  _yKnockbackDecayMultiplier: 0.15
+  _knockbackMultiplier: {x: 2, y: 0.4}
   _raycastGroundLayer:
     serializedVersion: 2
     m_Bits: 64
   _raycastGroundSize: {x: 0.99, y: 0.2}
   _raycastGroundDistance: 0.95
-  _dashForce: 20
+  _dashForce: 25
   _dashTime: 0.1
   _dashAmount: 1
   _dashCurve:
@@ -183,9 +187,31 @@ MonoBehaviour:
   _debugVelocityText: {fileID: 0}
   _debugPlayerStateText: {fileID: 0}
   _debugDashAmountText: {fileID: 0}
+  _debugDashTimeText: {fileID: 0}
+  _debugKnockbackText: {fileID: 0}
   _debugRandom: {fileID: 0}
-  isGrounded: 0
+  isGrounded: 1
   playerState: 0
+--- !u!114 &4992783990515733210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4211340032664995011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83fc40efaa5ecfd44a412f8c46246699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  currentOverCharge: 0
+  knockbackForcePer100: 75
+  onPlayerDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8023966666104609614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +259,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4992783990515733210}
+        m_TargetAssemblyTypeName: PlayerHealthController, Assembly-CSharp
+        m_MethodName: TestKnockback
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -1,19 +1,22 @@
-using System.Numerics;
+using System;
 using NaughtyAttributes;
-using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Vector2 = UnityEngine.Vector2;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _groundFriction;
-    [SerializeField] private float _airFriction;
+    [SerializeField,Range(0,1)] private float _groundFriction;
+    [SerializeField,Range(0,1)] private float _airFriction;
+    [SerializeField,Range(0,1)] private float _xKnockbackDecayMultiplier;
+    [SerializeField,Range(0,1)] private float _yKnockbackDecayMultiplier;
+    [SerializeField] private Vector2 _knockbackMultiplier;
     
     [Header("Ground Check Parameter")]
     [SerializeField] private LayerMask _raycastGroundLayer;
@@ -38,6 +41,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _debugVelocityText;
     [SerializeField] private TextMeshProUGUI _debugPlayerStateText;
     [SerializeField] private TextMeshProUGUI _debugDashAmountText;
+    [SerializeField] private TextMeshProUGUI _debugDashTimeText;
+    [SerializeField] private TextMeshProUGUI _debugKnockbackText;
     [SerializeField] private TextMeshProUGUI _debugRandom;
 
     [ReadOnly] public bool isGrounded;
@@ -45,20 +50,29 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
-    private float _xMoveInputMemory;
+    private float _xMoveInputMemory = 1;
     
     private Vector2 _dashDirection;
     private int _currentDashAmount;
     private float _currentDashTime;
     
     private InputBuffer _jumpBuffer;
+    private InputBuffer _dashBuffer;
+    
     private float _gravityScaleMemory;
+
+    private Vector2 _currentKnockback;
     
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        
         _jumpBuffer = new InputBuffer(_inputBufferTime);
         _jumpBuffer.inputCompleteEvent.AddListener(Jump);
+        
+        _dashBuffer = new InputBuffer(_inputBufferTime);
+        _dashBuffer.inputCompleteEvent.AddListener(Jump);
+        
         _gravityScaleMemory = _rb.gravityScale;
     }
 
@@ -75,31 +89,46 @@ public class PlayerController : MonoBehaviour
         }
         
         Vector2 newVelocity = Vector2.zero;
-        
+        _rb.linearVelocityX -= _currentKnockback.x;
+        float currentFriction = isGrounded ? _groundFriction : _airFriction;
         switch(playerState)
         {
             case PlayerState.Base:
                 newVelocity.y = _rb.linearVelocity.y;
-                float currentFriction = isGrounded ? _groundFriction : _airFriction;
-                newVelocity.x = Mathf.Lerp( _rb.linearVelocity.x, _moveSpeed * _moveInput.x,currentFriction);
+                float a = _rb.linearVelocity.x;
+                float b = _moveSpeed * _moveInput.x;
+                float c = Mathf.Abs(currentFriction * _moveSpeed * _moveInput.x);
+                if(Mathf.Abs(_moveInput.x) > 0) newVelocity.x = Mathf.MoveTowards(a,b,c);
+                else newVelocity.x = Mathf.MoveTowards(a,b,currentFriction * _moveSpeed / 2);
+                
                 break;
             case PlayerState.Dashing:
-                newVelocity = _dashForce  * _dashDirection ;
+                newVelocity = Vector2.MoveTowards(_rb.linearVelocity ,_dashDirection * _dashForce , currentFriction * _dashForce);
                 if (_currentDashTime > _dashTime)
                 {
                     newVelocity.y *= 0.5f;
                     SwitchPlayerState(PlayerState.Base);
                 }
-                else
-                { //* _dashCurve.Evaluate(_currentDashTime / _dashTime)
-                    _currentDashTime += Time.deltaTime;
-                }
+                else _currentDashTime += Time.deltaTime;
+                break;
+            case PlayerState.Frozen:
+                _currentKnockback = Vector2.zero;
                 break;
         }
-        
+
+        newVelocity += _currentKnockback * _knockbackMultiplier;
+        _currentKnockback *= currentFriction * new Vector2(_xKnockbackDecayMultiplier, _yKnockbackDecayMultiplier);
         _rb.linearVelocity = newVelocity;
         
         if(_debugUpdateDebugText) UpdateDebugText();
+    }
+    
+    public void Knockback(float knockbackForce, Vector2 knockbackDirection)
+    { 
+        if (playerState == PlayerState.Frozen) return;
+        _rb.linearVelocity = Vector2.zero;
+       knockbackDirection.Normalize();
+       _currentKnockback += knockbackDirection * knockbackForce;
     }
     
     public bool SwitchPlayerState (PlayerState newState, bool force = false)
@@ -123,6 +152,12 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Dashing:
                 _rb.gravityScale = 0;
                 break;
+            case PlayerState.Base:
+                if (_dashBuffer.TryInput())
+                {
+                    print("boom");
+                }
+                break;
         }
 
         playerState = newState;
@@ -137,12 +172,14 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateDebugText()
     {
-        _debugIsGroundedText.text = $"Is Grounded: {IsGrounded()}";
-        _debugIsInputBufferingText.text = $"Is Jump Buffering: {_jumpBuffer.isPressed}";
-        _debugInBufferTimerText.text = $"Input Jump Buffer Timer: {Time.unscaledTime - _jumpBuffer.lastPress :F}";
-        _debugVelocityText.text = $"Velocity: {_rb.linearVelocity.x :F} x , {_rb.linearVelocity.y :F} y";
-        _debugPlayerStateText.text = $"Player State: {playerState}";
-        _debugDashAmountText.text = $"Dash Amount: {_currentDashAmount} / {_dashAmount}";
+        if(_debugIsGroundedText) _debugIsGroundedText.text = $"Is Grounded: {IsGrounded()}";
+        if(_debugIsInputBufferingText) _debugIsInputBufferingText.text = $"Is Jump Buffering: {_jumpBuffer.isPressed}";
+        if(_debugInBufferTimerText) _debugInBufferTimerText.text = $"Input Jump Buffer Timer: {Time.unscaledTime - _jumpBuffer.lastPress :F}";
+        if(_debugVelocityText) _debugVelocityText.text = $"Velocity: {_rb.linearVelocity.x :F} x , {_rb.linearVelocity.y :F} y";
+        if(_debugPlayerStateText) _debugPlayerStateText.text = $"Player State: {playerState}";
+        if(_debugDashAmountText) _debugDashAmountText.text = $"Dash Amount: {_currentDashAmount} / {_dashAmount}";
+        if(_debugDashTimeText) _debugDashTimeText.text = $"Dash Time: {_currentDashTime} / {_dashTime}";
+        if(_debugKnockbackText) _debugKnockbackText.text = $"Knockback: {_currentKnockback} ";
     }
 
     public void Jump()
@@ -181,6 +218,10 @@ public class PlayerController : MonoBehaviour
             {
                 Dash();
             }
+            else
+            {
+                _dashBuffer.RegisterInput();
+            }
         }
     }
 
@@ -198,6 +239,7 @@ public class PlayerController : MonoBehaviour
             {
                 _dashDirection = _moveInput.normalized;
             }
+
             _currentDashTime = 0f;
             _currentDashAmount--;
             SwitchPlayerState(PlayerState.Dashing);
