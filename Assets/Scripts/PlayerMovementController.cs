@@ -117,7 +117,7 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         newVelocity += _currentKnockback * _knockbackMultiplier;
-        _currentKnockback *= currentFriction * new Vector2(_xKnockbackDecayMultiplier, _yKnockbackDecayMultiplier);
+        _currentKnockback *= new Vector2(_xKnockbackDecayMultiplier, _yKnockbackDecayMultiplier);
         _rb.linearVelocity = newVelocity;
         
         if(_debugUpdateDebugText) UpdateDebugText();
@@ -251,11 +251,12 @@ public class PlayerMovementController : MonoBehaviour
         SwitchPlayerState(freeze ? PlayerState.Frozen : PlayerState.Base);        
     }
 
-    public enum PlayerState
-    {
-        Base,
-        Frozen,
-        Dashing,
-        Attacking,
-    }
+    
+}
+public enum PlayerState
+{
+    Base,
+    Frozen,
+    Dashing,
+    Attacking,
 }

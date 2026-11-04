@@ -1,38 +1,62 @@
-using System.Numerics;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Vector2 = UnityEngine.Vector2;
 
 public class PlayerHealthController : MonoBehaviour
 {
     [ReadOnly] public float currentOverCharge;
     [Tooltip("The amount of knockback a player receives per 100 overchange")] 
-    public float knockbackForcePer100;
+    [SerializeField] private float _knockbackForcePer100;
     
-    [HideInInspector] public UnityEvent onPlayerDeath;
-    [HideInInspector] public UnityEvent onPlayerDamage;
+
+    [Header("Test")] public float testDamage;
     
-    private Rigidbody2D _rb;
+    [HideInInspector] public UnityEvent onPlayerDeath = new();
+    [HideInInspector] public UnityEvent onPlayerDamage = new();
+    
     private PlayerMovementController _playerMovementController;
 
     public void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
         _playerMovementController = GetComponent<PlayerMovementController>();
     }
 
-    public bool Damage(float damage, Vector2 attackPosition)
+    public void KillPlayer()
+    {
+        _playerMovementController.SwitchPlayerState(PlayerState.Frozen, true);
+        onPlayerDeath?.Invoke();
+    }
+    public bool Damage(float damage, Vector3 attackPosition)
     {
         
+        currentOverCharge += damage;
+        Vector2 direction = transform.position - attackPosition;
+        Debug.Log($"Damage: {currentOverCharge} / {direction}");
+        float currentKnockback = 0;
+        currentKnockback = _knockbackForcePer100 * Mathf.Sqrt(currentOverCharge / 100);
+        _playerMovementController.Knockback(currentKnockback, direction);
+        onPlayerDamage?.Invoke();
         return true;
     }
 
     
     
-    [Button]
-    public void TestKnockback()
+    public void TestDamage(InputAction.CallbackContext context)
     {
-        _playerMovementController.Knockback(knockbackForcePer100, new Vector2(1,1));
+        if(context.performed) Damage(0, new Vector3(-1,-1,0) + transform.position);
+    }
+
+    [Button]
+    public void ResetCharge()
+    {
+        currentOverCharge = 0;
+    }
+    [Button]
+    public void DoDamage()
+    {
+        currentOverCharge += testDamage;
     }
 }
