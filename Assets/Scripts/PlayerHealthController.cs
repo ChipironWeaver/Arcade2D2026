@@ -77,12 +77,12 @@ public class PlayerHealthController : MonoBehaviour
     }
 
     [Button]
-    public void ResetCharge()
+    private void ResetCharge()
     {
         currentOverCharge = 0;
     }
     [Button]
-    public void DoDamage()
+    private void DoDamage()
     {
         currentOverCharge += testDamage;
     }
