@@ -206,6 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   currentOverCharge: 0
   _knockbackForcePer100: 35
+  _damageIFrames: 0.5
+  _spawnIFrames: 2
   testDamage: 33
   onPlayerDeath:
     m_PersistentCalls:
