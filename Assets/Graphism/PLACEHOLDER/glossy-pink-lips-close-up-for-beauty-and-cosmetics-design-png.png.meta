@@ -1,0 +1,405 @@
+fileFormatVersion: 2
+guid: a490837fcab22af46be70e300c19101e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8525725509583824594
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_0
+  - first:
+      213: -6194448572613172443
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_1
+  - first:
+      213: 5828394589793730061
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_2
+  - first:
+      213: -8767118943352141638
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_3
+  - first:
+      213: 5856944172160621345
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_4
+  - first:
+      213: 18586019761747634
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_5
+  - first:
+      213: 1054613613869366463
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_6
+  - first:
+      213: 4586903183580660917
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_7
+  - first:
+      213: 6142606286208645632
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_8
+  - first:
+      213: -1219923941530851161
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_9
+  - first:
+      213: 5469770015056301308
+    second: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_10
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1750
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 933
+        width: 216
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d6ea330e26715670800000000000000
+      internalID: 8525725509583824594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_1
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 918
+        width: 121
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52367f1c7d5e80aa0800000000000000
+      internalID: -6194448572613172443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_2
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 933
+        width: 306
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0eb67fcffd92e050800000000000000
+      internalID: 5828394589793730061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_3
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 918
+        width: 96
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab8c5ed65cfe45680800000000000000
+      internalID: -8767118943352141638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 206
+        width: 976
+        height: 555
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12b9de271bb084150800000000000000
+      internalID: 5856944172160621345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_5
+      rect:
+        serializedVersion: 2
+        x: 887
+        y: 650
+        width: 299
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b6ffa1f2e7024000800000000000000
+      internalID: 18586019761747634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_6
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 353
+        width: 96
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbc79f58e7db2ae00800000000000000
+      internalID: 1054613613869366463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_7
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 71
+        width: 121
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b40f6c9424f7af30800000000000000
+      internalID: 4586903183580660917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_8
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 85
+        width: 320
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00a3c845fdbee3550800000000000000
+      internalID: 6142606286208645632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_9
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 71
+        width: 121
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a82f0c73a5f11fe0800000000000000
+      internalID: -1219923941530851161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_10
+      rect:
+        serializedVersion: 2
+        x: 887
+        y: 85
+        width: 299
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfc838e39d688eb40800000000000000
+      internalID: 5469770015056301308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_0: 8525725509583824594
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_1: -6194448572613172443
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_10: 5469770015056301308
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_2: 5828394589793730061
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_3: -8767118943352141638
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_4: 5856944172160621345
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_5: 18586019761747634
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_6: 1054613613869366463
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_7: 4586903183580660917
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_8: 6142606286208645632
+      glossy-pink-lips-close-up-for-beauty-and-cosmetics-design-png_9: -1219923941530851161
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

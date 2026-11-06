@@ -9,6 +9,10 @@ using Vector2 = UnityEngine.Vector2;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovementController : MonoBehaviour
 {
+    [Header("References")] 
+    [SerializeField] private Transform _rotatingPart;
+    [SerializeField] private Animator _animator;
+    
     [Header("Movement Settings")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
@@ -22,6 +26,10 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private LayerMask _raycastGroundLayer;
     [SerializeField] private Vector2 _raycastGroundSize;
     [SerializeField] private float _raycastGroundDistance;
+
+    [Header("Attack")] 
+    [SerializeField] private float _attackTime;
+    [SerializeField] private GameObject _slashGameObject;
     
     [Header("Dash")]
     [SerializeField] private float _dashForce;
@@ -54,14 +62,17 @@ public class PlayerMovementController : MonoBehaviour
     
     private Vector2 _dashDirection;
     private int _currentDashAmount;
-    private float _currentDashTime;
+    
+    private float _currentStateTime;
     
     private InputBuffer _jumpBuffer;
     private InputBuffer _dashBuffer;
+    private InputBuffer _attackBuffer;
     
     private float _gravityScaleMemory;
 
     private Vector2 _currentKnockback;
+
     
     void Start()
     {
@@ -71,7 +82,10 @@ public class PlayerMovementController : MonoBehaviour
         _jumpBuffer.inputCompleteEvent.AddListener(Jump);
         
         _dashBuffer = new InputBuffer(_inputBufferTime);
-        _dashBuffer.inputCompleteEvent.AddListener(Jump);
+        _dashBuffer.inputCompleteEvent.AddListener(Dash);
+        
+        _attackBuffer = new InputBuffer(_inputBufferTime);
+        _attackBuffer.inputCompleteEvent.AddListener(Attack);
         
         _gravityScaleMemory = _rb.gravityScale;
     }
@@ -85,7 +99,7 @@ public class PlayerMovementController : MonoBehaviour
         if (groundStateChange && isGrounded)
         {
             _currentDashAmount = _dashAmount;
-            _jumpBuffer.TryInput();
+            if (!_dashBuffer.TryInput()) _jumpBuffer.TryInput();
         }
         
         Vector2 newVelocity = Vector2.zero;
@@ -100,22 +114,25 @@ public class PlayerMovementController : MonoBehaviour
                 float c = Mathf.Abs(currentFriction * _moveSpeed * _moveInput.x);
                 if(Mathf.Abs(_moveInput.x) > 0) newVelocity.x = Mathf.MoveTowards(a,b,c);
                 else newVelocity.x = Mathf.MoveTowards(a,b,currentFriction * _moveSpeed / 2);
-                
                 break;
             case PlayerState.Dashing:
                 newVelocity = Vector2.MoveTowards(_rb.linearVelocity ,_dashDirection * _dashForce , currentFriction * _dashForce);
-                if (_currentDashTime > _dashTime)
+                if (_currentStateTime > _dashTime)
                 {
                     newVelocity.y *= 0.5f;
                     SwitchPlayerState(PlayerState.Base);
                 }
-                else _currentDashTime += Time.deltaTime;
+                break;
+            case PlayerState.Attacking:
+                if (_currentStateTime > _attackTime) SwitchPlayerState(PlayerState.Base);
+                else newVelocity = _rb.linearVelocity / 2;
                 break;
             case PlayerState.Frozen:
                 _currentKnockback = Vector2.zero;
                 break;
         }
-
+        _currentStateTime += Time.deltaTime;
+        
         newVelocity += _currentKnockback * _knockbackMultiplier;
         _currentKnockback *= new Vector2(_xKnockbackDecayMultiplier, _yKnockbackDecayMultiplier);
         _rb.linearVelocity = newVelocity;
@@ -133,6 +150,7 @@ public class PlayerMovementController : MonoBehaviour
     
     public bool SwitchPlayerState (PlayerState newState, bool force = false)
     {
+        
         switch (playerState)
         {
             case PlayerState.Frozen:
@@ -142,6 +160,9 @@ public class PlayerMovementController : MonoBehaviour
             case PlayerState.Dashing:
                 _rb.gravityScale = _gravityScaleMemory;
                 if(isGrounded) _currentDashAmount = _dashAmount;
+                break;
+            case PlayerState.Attacking:
+                _slashGameObject.SetActive(false);
                 break;
         }
         switch (newState)
@@ -153,14 +174,18 @@ public class PlayerMovementController : MonoBehaviour
                 _rb.gravityScale = 0;
                 break;
             case PlayerState.Base:
-                if (_dashBuffer.TryInput())
+                if (!_dashBuffer.TryInput())
                 {
-                    print("boom");
+                    _attackBuffer.TryInput();
                 }
+                break;
+            case PlayerState.Attacking:
+                _slashGameObject.SetActive(true);
                 break;
         }
 
         playerState = newState;
+        _currentStateTime = 0f;
         return true;
     }
     
@@ -178,7 +203,7 @@ public class PlayerMovementController : MonoBehaviour
         if(_debugVelocityText) _debugVelocityText.text = $"Velocity: {_rb.linearVelocity.x :F} x , {_rb.linearVelocity.y :F} y";
         if(_debugPlayerStateText) _debugPlayerStateText.text = $"Player State: {playerState}";
         if(_debugDashAmountText) _debugDashAmountText.text = $"Dash Amount: {_currentDashAmount} / {_dashAmount}";
-        if(_debugDashTimeText) _debugDashTimeText.text = $"Dash Time: {_currentDashTime} / {_dashTime}";
+        if(_debugDashTimeText) _debugDashTimeText.text = $"Dash Time: {_currentStateTime} / {_dashTime}";
         if(_debugKnockbackText) _debugKnockbackText.text = $"Knockback: {_currentKnockback} ";
     }
 
@@ -191,13 +216,17 @@ public class PlayerMovementController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         _moveInput = context.ReadValue<Vector2>();
-        if (_moveInput.x != 0) _xMoveInputMemory = _moveInput.x;
+        if (_moveInput.x != 0)
+        {
+            _xMoveInputMemory = _moveInput.x;
+            if(playerState == PlayerState.Base) _rotatingPart.localEulerAngles = new Vector3(0 , _moveInput.x > 0 ? 0 : 180 ,0);
+        }
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && playerState == PlayerState.Base)
+        if (context.performed)
         {
-            if (IsGrounded())
+            if (IsGrounded() && playerState == PlayerState.Base)
             {
                 Jump();
             }
@@ -209,12 +238,32 @@ public class PlayerMovementController : MonoBehaviour
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (context.performed)
+        {
+            if (playerState == PlayerState.Base)
+            {
+                Attack();
+            }
+            else
+            {
+                _attackBuffer.RegisterInput();
+            }
+        }
     }
+
+    private void Attack()
+    {
+        if (playerState == PlayerState.Base)
+        {
+            SwitchPlayerState(PlayerState.Attacking);
+        }
+    }
+
     public void OnDash(InputAction.CallbackContext context)
     {
-        if(context.performed && _currentDashAmount > 0 )
+        if(context.performed)
         {
-            if (playerState == PlayerState.Base )
+            if (playerState == PlayerState.Base && _currentDashAmount > 0)
             {
                 Dash();
             }
@@ -239,8 +288,6 @@ public class PlayerMovementController : MonoBehaviour
             {
                 _dashDirection = _moveInput.normalized;
             }
-
-            _currentDashTime = 0f;
             _currentDashAmount--;
             SwitchPlayerState(PlayerState.Dashing);
         }
