@@ -306,6 +306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af36b4fa904b96140a1b167e4dffd19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _rotatingPart: {fileID: 178238326879739664}
+  _animator: {fileID: 0}
   _moveSpeed: 12
   _jumpForce: 15
   _groundFriction: 0.6
@@ -318,6 +320,8 @@ MonoBehaviour:
     m_Bits: 64
   _raycastGroundSize: {x: 0.99, y: 0.2}
   _raycastGroundDistance: 0.95
+  _attackTime: 0.05
+  _slashGameObject: {fileID: 6503777240551507401}
   _dashForce: 35
   _dashTime: 0.1
   _dashAmount: 1
@@ -764,11 +768,11 @@ PolygonCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 2
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -890,7 +894,7 @@ MonoBehaviour:
   _xPosition: 0
   _overrideYPosition: 0
   _yPosition: 0
-  _damageAmount: 2
+  _damageAmount: 100
   onTargetHit:
     m_PersistentCalls:
       m_Calls: []

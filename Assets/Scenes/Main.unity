@@ -804,11 +804,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!4 &857503481 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 178238326879739664, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
-  m_PrefabInstance: {fileID: 3666689210986805407}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &890274711
 GameObject:
   m_ObjectHideFlags: 0
@@ -14320,11 +14315,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &1902671439 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6503777240551507401, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
-  m_PrefabInstance: {fileID: 3666689210986805407}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1934539471
 GameObject:
   m_ObjectHideFlags: 0
@@ -14615,21 +14605,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
-      propertyPath: _attackTime
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
       propertyPath: _debugRandom
       value: 
       objectReference: {fileID: 1662278929}
-    - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
-      propertyPath: _rotatingPart
-      value: 
-      objectReference: {fileID: 857503481}
-    - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
-      propertyPath: _slashGameObject
-      value: 
-      objectReference: {fileID: 1902671439}
     - target: {fileID: 2709844319819125279, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
       propertyPath: _debugDashTimeText
       value: 
@@ -14705,6 +14683,14 @@ PrefabInstance:
     - target: {fileID: 6068461118798442469, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932951310841290366, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
+      propertyPath: _positionOffset.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932951310841290366, guid: 8112d42733770b040ab1a0848cec0d84, type: 3}
+      propertyPath: _useTargetYPosition
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

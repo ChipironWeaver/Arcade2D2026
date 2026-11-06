@@ -114,6 +114,8 @@ public class PlayerMovementController : MonoBehaviour
                 float c = Mathf.Abs(currentFriction * _moveSpeed * _moveInput.x);
                 if(Mathf.Abs(_moveInput.x) > 0) newVelocity.x = Mathf.MoveTowards(a,b,c);
                 else newVelocity.x = Mathf.MoveTowards(a,b,currentFriction * _moveSpeed / 2);
+                
+                _rotatingPart.localEulerAngles = new Vector3(0 , _xMoveInputMemory > 0 ? 0 : 180 ,0);
                 break;
             case PlayerState.Dashing:
                 newVelocity = Vector2.MoveTowards(_rb.linearVelocity ,_dashDirection * _dashForce , currentFriction * _dashForce);
@@ -219,7 +221,6 @@ public class PlayerMovementController : MonoBehaviour
         if (_moveInput.x != 0)
         {
             _xMoveInputMemory = _moveInput.x;
-            if(playerState == PlayerState.Base) _rotatingPart.localEulerAngles = new Vector3(0 , _moveInput.x > 0 ? 0 : 180 ,0);
         }
     }
     public void OnJump(InputAction.CallbackContext context)

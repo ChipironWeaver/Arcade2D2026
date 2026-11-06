@@ -24,11 +24,13 @@ public class DamageSource : MonoBehaviour
     
     public UnityEvent onTargetHit;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
+        Debug.Log($"bob {other}");
         if (_objectBlacklist.Contains(other.gameObject)) return;
         if (other.CompareTag(_playerTag))
         {
+            Debug.Log($"bobby {other}");
             if (other.TryGetComponent<PlayerHealthController>(out var player))
             {
                 Vector2 position = transform.position;
