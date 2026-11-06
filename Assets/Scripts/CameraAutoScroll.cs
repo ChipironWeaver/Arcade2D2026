@@ -20,9 +20,8 @@ public class CameraAutoScroll : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 aditionalDirection = _scrollDirectionNormalized * (_scrollSpeed / 10000);
-        transform.position += aditionalDirection;
-        Debug.Log(aditionalDirection);
+        Vector3 additionalDirection = _scrollDirectionNormalized * (_scrollSpeed / 10000);
+        transform.position += additionalDirection;
         _scrollSpeed += _scrollSpeedIncrease;
     }
 
