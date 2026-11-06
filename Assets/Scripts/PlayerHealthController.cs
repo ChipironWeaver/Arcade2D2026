@@ -47,6 +47,7 @@ public class PlayerHealthController : MonoBehaviour
     public void KillPlayer()
     {
         _playerMovementController.SwitchPlayerState(PlayerState.Frozen, true);
+        Debug.Log("Player Killed");
         onPlayerDeath?.Invoke();
     }
     public bool Damage(float damage, Vector3 attackPosition, bool force = false)

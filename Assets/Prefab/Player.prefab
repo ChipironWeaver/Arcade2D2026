@@ -888,13 +888,13 @@ MonoBehaviour:
   _objectBlacklist:
   - {fileID: 4211340032664995011}
   _useTargetXPosition: 0
-  _useTargetYPosition: 0
-  _positionOffset: {x: 0, y: 0}
+  _useTargetYPosition: 1
+  _positionOffset: {x: 0, y: -1}
   _overrideXPosition: 0
   _xPosition: 0
   _overrideYPosition: 0
   _yPosition: 0
-  _damageAmount: 100
+  _damageAmount: 20
   onTargetHit:
     m_PersistentCalls:
       m_Calls: []
