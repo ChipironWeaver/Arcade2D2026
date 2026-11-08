@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class LevelCreator : MonoBehaviour
+public class LevelInstantiator : MonoBehaviour
 {
     [SerializeField,Required] private Transform _firstStartPosition;
     [SerializeField] private List<LevelPiece> _levelPiecesPrefab = new();
