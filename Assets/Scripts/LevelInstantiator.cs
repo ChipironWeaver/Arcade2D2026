@@ -33,7 +33,7 @@ public class LevelInstantiator : MonoBehaviour
             }
 
             _currentLevelIndex = 0;
-            _currentCenterPosition = _activeLevelPieces[0].GetCenter();
+            _currentCenterPosition = _activeLevelPieces[0].startPosition.position;
         }
     }
 
@@ -55,7 +55,6 @@ public class LevelInstantiator : MonoBehaviour
             
             
             int checkIndex = _currentLevelIndex - (_levelPiecesDistance + 1);
-            Debug.Log($"checkIndex: {checkIndex} currentLevelIndex: {_currentLevelIndex}");
             if (checkIndex > 0)
             {
                 LevelPiece discard = _activeLevelPieces[0];
@@ -79,7 +78,7 @@ public class LevelInstantiator : MonoBehaviour
             }
             
             AddNewLevelPiece();
-            _currentCenterPosition = _activeLevelPieces[_currentLevelIndex].GetCenter();
+            _currentCenterPosition = _activeLevelPieces[_currentLevelIndex].startPosition.position;
     }
     
     [Button]
@@ -87,7 +86,6 @@ public class LevelInstantiator : MonoBehaviour
     {
         if (_levelPiecesPrefab.Count == 0)
         {
-            Debug.LogWarning("Level piece prefab is empty");
             return;
         }
         int pieceIndex = Random.Range(0, _levelPiecesPrefab.Count);

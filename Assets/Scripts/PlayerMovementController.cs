@@ -86,8 +86,8 @@ public class PlayerMovementController : MonoBehaviour
         
         _attackBuffer = new InputBuffer(_inputBufferTime);
         _attackBuffer.inputCompleteEvent.AddListener(Attack);
-        
-        _gravityScaleMemory = _rb.gravityScale;
+
+        Reset();
     }
 
     void FixedUpdate()
@@ -174,6 +174,7 @@ public class PlayerMovementController : MonoBehaviour
                 break;
             case PlayerState.Dashing:
                 _rb.gravityScale = 0;
+                _rb.linearVelocityY = 0;
                 break;
             case PlayerState.Base:
                 if (!_dashBuffer.TryInput())
@@ -299,7 +300,14 @@ public class PlayerMovementController : MonoBehaviour
         SwitchPlayerState(freeze ? PlayerState.Frozen : PlayerState.Base);        
     }
 
-    
+
+    public void Reset()
+    {
+        SwitchPlayerState(PlayerState.Base);
+        _rb.linearVelocity = Vector2.zero;
+        _currentKnockback = new Vector2(0, 0);
+        _gravityScaleMemory = _rb.gravityScale;
+    }
 }
 public enum PlayerState
 {

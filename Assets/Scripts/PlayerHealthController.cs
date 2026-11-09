@@ -18,8 +18,9 @@ public class PlayerHealthController : MonoBehaviour
 
     [Header("Test")] public float testDamage;
     
-    [HideInInspector] public UnityEvent onPlayerDeath = new();
-    [HideInInspector] public UnityEvent onPlayerDamage = new();
+    public UnityEvent onPlayerDeath = new();
+    public UnityEvent onPlayerDamage = new();
+    public bool isFrozen = false;
     
     private PlayerMovementController _playerMovementController;
 
@@ -29,7 +30,7 @@ public class PlayerHealthController : MonoBehaviour
     public void Start()
     {
         _playerMovementController = GetComponent<PlayerMovementController>();
-        GiveIFrames(_spawnIFrames);
+        Reset();
     }
 
     public void Update()
@@ -46,13 +47,11 @@ public class PlayerHealthController : MonoBehaviour
 
     public void KillPlayer()
     {
-        _playerMovementController.SwitchPlayerState(PlayerState.Frozen, true);
-        Debug.Log("Player Killed");
         onPlayerDeath?.Invoke();
     }
     public bool Damage(float damage, Vector3 attackPosition, bool force = false)
     {
-        if(_isInIFrames && !force) return false;
+        if((_isInIFrames && !force) | isFrozen) return false;
         currentOverCharge += damage;
         Vector2 direction = transform.position - attackPosition;
         Debug.Log($"Damage: {currentOverCharge} / {direction}");
@@ -63,16 +62,36 @@ public class PlayerHealthController : MonoBehaviour
         GiveIFrames(_damageIFrames);
         return true;
     }
-    
-
     public void GiveIFrames(float amount , bool force = false)
     {
         if (_iFramesTimer > 0 && !force) return;
         _iFramesTimer = amount;
         _isInIFrames = true;
     }
+
+    public void Reset()
+    {
+        GiveIFrames(_spawnIFrames);
+        currentOverCharge = 0;
+        FreezePlayer(false);
+    }
+
+    public void FreezePlayer(bool freeze)
+    {
+        isFrozen = freeze;
+        if (freeze)
+        {
+        }
+        else
+        {
+            
+        }
+    }
     
-    public void TestDamage(InputAction.CallbackContext context)
+    // TESTING
+    
+    
+    private void TestDamage(InputAction.CallbackContext context)
     {
         if(context.performed) Damage(0, new Vector3(-1,-1,0) + transform.position);
     }
@@ -87,4 +106,6 @@ public class PlayerHealthController : MonoBehaviour
     {
         currentOverCharge += testDamage;
     }
+
+    
 }

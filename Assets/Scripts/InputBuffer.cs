@@ -31,4 +31,11 @@ public class InputBuffer
         }
         return false;
     }
+
+    public void Reset()
+    {
+        isPressed = false;
+        lastPress = 0f;
+    }
+
 }

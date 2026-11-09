@@ -37,8 +37,6 @@ public class CameraAutoScroll : MonoBehaviour
         Gizmos.matrix = rotationMatrix;	
         Gizmos.color = Color.orange;
         Gizmos.DrawWireCube( new Vector3(0,-_gizmoSize.y/2), _gizmoSize);
-        
-        Gizmos.color = Color.green;
         Gizmos.DrawWireCube( new Vector3(0,-_gizmoSize.y/2), new Vector2(0.1f, _gizmoSize.y));
     }
 }
