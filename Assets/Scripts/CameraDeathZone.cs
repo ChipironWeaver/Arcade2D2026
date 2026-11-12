@@ -34,7 +34,6 @@ public class CameraDeathZone : MonoBehaviour
     {
         if (other.CompareTag(_playerTag))
         {
-            Debug.Log($"try to kill {other}");
             if (other.TryGetComponent<PlayerHealthController>(out var player))
             {
                 player.KillPlayer();

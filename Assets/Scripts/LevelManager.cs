@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<Transform> _playersRespawnPositions;
     
     
-    
     public Vector3 GetSpawnPosition(int index)
     {
         return _playersRespawnPositions[index % _playersRespawnPositions.Count].position;

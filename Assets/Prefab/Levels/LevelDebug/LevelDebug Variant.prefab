@@ -8,14 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1888592707999874977, guid: 44261793a4e59be4b9fa5a94ce28c448, type: 3}
-      propertyPath: scrollDirection.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1888592707999874977, guid: 44261793a4e59be4b9fa5a94ce28c448, type: 3}
-      propertyPath: scrollDirection.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3223949210165286715, guid: 44261793a4e59be4b9fa5a94ce28c448, type: 3}
       propertyPath: m_Tiles.Array.size
       value: 140

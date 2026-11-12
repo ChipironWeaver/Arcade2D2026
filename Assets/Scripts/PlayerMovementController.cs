@@ -74,7 +74,7 @@ public class PlayerMovementController : MonoBehaviour
     private Vector2 _currentKnockback;
 
     
-    void Start()
+    void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         

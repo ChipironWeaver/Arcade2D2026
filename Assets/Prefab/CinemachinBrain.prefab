@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _playerTag: Player
-  _margin: {x: 1.5, y: 1.5}
+  _margin: {x: 5, y: 5}
   _camera: {fileID: 6997169034557532084}
 --- !u!1 &7068779999087859295
 GameObject:

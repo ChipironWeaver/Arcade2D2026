@@ -14,7 +14,17 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
 
     [SerializeField, ReadOnly]
     private Dictionary<PlayerController, bool> _activePlayers;
+    private int _activePlayerCount;
 
+    public void Start()
+    {
+        foreach (PlayerController player in _players)
+        {
+            _activePlayers.Add(player, true);
+        }
+        _activePlayerCount = _players.Count;
+        LevelStart();
+    }
     public void OnEnable()
     {
         foreach (PlayerController player in _players)
@@ -48,15 +58,46 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
         {
             player.ResetPlayer();
         }
+        foreach (PlayerController player in _players)
+        {
+            _activePlayers[player] = true;
+        }
+        _activePlayerCount = _players.Count;
     }
     
     public void SwitchLevel()
     {
-        throw new NotImplementedException();
+        
     }
 
     private void PlayerDeath(PlayerController player)
     {
-        throw new NotImplementedException();
+        if(_activePlayers[player])
+        {
+            _activePlayerCount--;
+            _activePlayers[player] = false;
+        }
+
+        if (_activePlayerCount == 1)
+        {
+            PlayerController winner = null;
+            foreach(PlayerController p in  _players)
+            {
+                if (_activePlayers[p])
+                {
+                    winner = p;
+                    break;
+                }
+            }
+            if (winner)
+            {
+                Debug.Log($"The winner is {winner.gameObject.name}");
+                GameEnd();
+            }
+            else
+            {
+                Debug.Log("Please don't even show this message");
+            }
+        }
     }
 }

@@ -831,7 +831,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3867987733380884406}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3e8c3c7c992c44fa4be0f4c9981729, type: 3}
   m_Name: 
@@ -1154,13 +1154,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8567698361013642814}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31c030c1cf67b574282a83f7271c5591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   _baseScrollSpeed: 0
   _scrollSpeedIncrease: 0.5
-  scrollDirection: {x: 1, y: 0}
+  scrollDirection: {x: 3, y: 1}
   _gizmoSize: {x: 38.2, y: 500}
   _scrollSpeed: 0
