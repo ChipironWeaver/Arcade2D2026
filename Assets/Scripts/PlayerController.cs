@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerDeath()
     {
         onPlayerDeath.Invoke(this);
+        Debug.Log($"Player {gameObject.name} is dead");
         FreezePlayer(true);
     }
 

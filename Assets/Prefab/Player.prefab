@@ -404,6 +404,7 @@ MonoBehaviour:
   onPlayerDamage:
     m_PersistentCalls:
       m_Calls: []
+  isFrozen: 0
 --- !u!114 &8023966666104609614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,7 +534,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
@@ -552,6 +553,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _playerHealthController: {fileID: 4992783990515733210}
   _playerMovementController: {fileID: 2709844319819125279}
+  onPlayerDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  isAlive: 1
 --- !u!1 &4299600426713257711
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -30,7 +31,8 @@ public class LevelManager : MonoBehaviour
 
     public void Reset()
     {
-        throw new NotImplementedException();
+        _instantiator.Reset();
+        _cameraAutoScroll.Reset();
     }
 
     public void StartLevel()

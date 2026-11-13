@@ -20,21 +20,7 @@ public class LevelInstantiator : MonoBehaviour
     private Vector2 _currentCenterPosition;
     public void Start()
     {
-        if(_autoAddLevelPieces)
-        {
-            if (_levelPiecesDistance <= 0)
-            {
-                Debug.LogWarning("Level piece distance can't be 0 or less");
-                enabled = false;
-            }
-            for (int i = 0; i < _levelPiecesDistance; i++)
-            {
-                AddNewLevelPiece();
-            }
-
-            _currentLevelIndex = 0;
-            _currentCenterPosition = _activeLevelPieces[0].startPosition.position;
-        }
+        Reset();
     }
 
     public void Update()
@@ -57,26 +43,8 @@ public class LevelInstantiator : MonoBehaviour
             int checkIndex = _currentLevelIndex - (_levelPiecesDistance + 1);
             if (checkIndex > 0)
             {
-                LevelPiece discard = _activeLevelPieces[0];
-                int discardType = _activeLevelPiecesType[0];
-                _activeLevelPieces.RemoveAt(0);
-                _activeLevelPiecesType.RemoveAt(0);
-                
-                if (_levelPieceCulling.ContainsKey(discardType))
-                {
-                    _levelPieceCulling[discardType].Add(discard);
-                }
-                else
-                {
-                    List<LevelPiece> levelPieces = new();
-                    levelPieces.Add(discard);
-                    _levelPieceCulling.Add(discardType, levelPieces);
-                }
-                
-                _currentLevelIndex--;
-                discard.gameObject.SetActive(false); 
+                RemoveFirstLevelPiece();
             }
-            
             AddNewLevelPiece();
             _currentCenterPosition = _activeLevelPieces[_currentLevelIndex].startPosition.position;
     }
@@ -113,6 +81,55 @@ public class LevelInstantiator : MonoBehaviour
         _activeLevelPiecesType.Add(pieceIndex);
     }
     
+    public void Reset()
+    {
+        
+
+        while (_activeLevelPieces.Count > 0)
+        {
+            RemoveFirstLevelPiece();
+        }
+        
+        _currentLevelIndex = 0;
+        
+        
+        if (_levelPiecesDistance <= 0)
+        {
+            Debug.LogWarning("Level piece distance can't be 0 or less");
+            enabled = false;
+        }
+        for (int i = 0; i < _levelPiecesDistance; i++)
+        {
+            AddNewLevelPiece();
+        }
+        
+        _currentCenterPosition = _activeLevelPieces[0].startPosition.position;
+    }
+    
+    
+
+    public void RemoveFirstLevelPiece()
+    {
+        LevelPiece discard = _activeLevelPieces[0];
+        int discardType = _activeLevelPiecesType[0];
+        _activeLevelPieces.RemoveAt(0);
+        _activeLevelPiecesType.RemoveAt(0);
+                
+        if (_levelPieceCulling.ContainsKey(discardType))
+        {
+            _levelPieceCulling[discardType].Add(discard);
+        }
+        else
+        {
+            List<LevelPiece> levelPieces = new();
+            levelPieces.Add(discard);
+            _levelPieceCulling.Add(discardType, levelPieces);
+        }
+                
+        _currentLevelIndex--;
+        discard.gameObject.SetActive(false); 
+    }
+    
     [Button]
     public void AlignFirstPosition()
     {
@@ -132,4 +149,6 @@ public class LevelInstantiator : MonoBehaviour
         Gizmos.color = Color.lightSkyBlue;
         Gizmos.DrawSphere(_firstStartPosition.position, 0.5f);
     }
+
+    
 }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using NaughtyAttributes;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManger : MonoBehaviourSingleton<GameManger>
 {
@@ -16,23 +18,33 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
     private Dictionary<PlayerController, bool> _activePlayers;
     private int _activePlayerCount;
 
-    public void Start()
+    // public void Start()
+    // {
+    //     foreach (PlayerController player in _players)
+    //     {
+    //         _activePlayers.Add(player, true);
+    //     }
+    //     _activePlayerCount = _players.Count;
+    //     LevelStart();
+    // }
+    // public void OnEnable()
+    // {
+    //     foreach (PlayerController player in _players)
+    //     {
+    //         player.onPlayerDeath.AddListener(PlayerDeath);
+    //     }
+    // }
+
+    public void PlayerJoined(PlayerInput player)
     {
-        foreach (PlayerController player in _players)
-        {
-            _activePlayers.Add(player, true);
-        }
-        _activePlayerCount = _players.Count;
-        LevelStart();
-    }
-    public void OnEnable()
-    {
-        foreach (PlayerController player in _players)
-        {
-            player.onPlayerDeath.AddListener(PlayerDeath);
-        }
+        
     }
 
+    public void PlayerLeft(PlayerInput player)
+    {
+        
+    }
+    
     public void LevelStart()
     {
         for (int i  = 0; i < _players.Count; i++)
@@ -40,6 +52,7 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
             _players[i].RespawnPlayer(_activeLevel.GetSpawnPosition(i));
         }
         _activeLevel.StartLevel();
+        _baseCamera.Priority.Value = 0;
     }
 
     public void GameEnd()
@@ -47,11 +60,13 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
         if(_changeLevelOnGameEnd) SwitchLevel();
         GlobalReset();
         //ANIMATION
-        LevelStart();
+        DOTween.Sequence().AppendInterval(0.5f).OnComplete(LevelStart);
+
     }
 
     public void GlobalReset()
     {
+        _activeLevel.Stop();
         _baseCamera.Priority.Value = 2;
         _activeLevel.Reset();
         foreach (PlayerController player in _players)

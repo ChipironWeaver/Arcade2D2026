@@ -15,8 +15,7 @@ public class CameraAutoScroll : MonoBehaviour
 
     private void Start()
     {
-        _scrollDirectionNormalized = scrollDirection.normalized;
-        _scrollSpeed = _baseScrollSpeed;
+        Reset();
     }
 
     private void FixedUpdate()
@@ -38,5 +37,12 @@ public class CameraAutoScroll : MonoBehaviour
         Gizmos.color = Color.orange;
         Gizmos.DrawWireCube( new Vector3(0,-_gizmoSize.y/2), _gizmoSize);
         Gizmos.DrawWireCube( new Vector3(0,-_gizmoSize.y/2), new Vector2(0.1f, _gizmoSize.y));
+    }
+
+    public void Reset()
+    {
+        _scrollDirectionNormalized = scrollDirection.normalized;
+        _scrollSpeed = _baseScrollSpeed;
+        transform.position = Vector3.zero;
     }
 }

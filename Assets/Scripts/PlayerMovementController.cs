@@ -297,14 +297,15 @@ public class PlayerMovementController : MonoBehaviour
 
     public void FreezePlayer(bool freeze)
     {
-        SwitchPlayerState(freeze ? PlayerState.Frozen : PlayerState.Base);        
+        Debug.Log($"Freeze {gameObject.name} on {freeze}");
+        SwitchPlayerState(freeze ? PlayerState.Frozen : PlayerState.Base, true);        
     }
 
 
     public void Reset()
     {
         SwitchPlayerState(PlayerState.Base);
-        _rb.linearVelocity = Vector2.zero;
+         _rb.linearVelocity = Vector2.zero;
         _currentKnockback = new Vector2(0, 0);
         _gravityScaleMemory = _rb.gravityScale;
     }
