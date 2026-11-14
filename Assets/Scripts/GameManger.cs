@@ -11,42 +11,70 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
     [SerializeField] private LevelManager _activeLevel;
     [SerializeField] private CinemachineCamera _baseCamera;
     [SerializeField] private bool _changeLevelOnGameEnd;
-    [SerializeField] private List<PlayerController> _players;
-    [SerializeField] private List<LevelManager> _levels;
-
-    [SerializeField, ReadOnly]
-    private Dictionary<PlayerController, bool> _activePlayers;
-    private int _activePlayerCount;
-
-    // public void Start()
-    // {
-    //     foreach (PlayerController player in _players)
-    //     {
-    //         _activePlayers.Add(player, true);
-    //     }
-    //     _activePlayerCount = _players.Count;
-    //     LevelStart();
-    // }
-    // public void OnEnable()
-    // {
-    //     foreach (PlayerController player in _players)
-    //     {
-    //         player.onPlayerDeath.AddListener(PlayerDeath);
-    //     }
-    // }
-
-    public void PlayerJoined(PlayerInput player)
-    {
-        
-    }
-
-    public void PlayerLeft(PlayerInput player)
-    {
-        
-    }
+    [SerializeField] private bool _autoRestart;
     
+    [SerializeField] private List<LevelManager> _levels; 
+
+    [SerializeField, ReadOnly] private List<PlayerController> _players = new(); // Players that are playing the game
+    [SerializeField, ReadOnly]
+    private Dictionary<PlayerController, bool> _playerStatus = new(); // Show the status of the player : true = alive / false = dead
+    
+    [SerializeField, ReadOnly]
+    private List<PlayerController> _queuedPlayer = new(); // Players that want to join the game
+    [SerializeField, ReadOnly]
+    private List<PlayerController> _afkPlayers = new(); // Players that haven't played an input or had there device deconected.
+    [SerializeField, ReadOnly]
+    private List<PlayerController> _disabledPlayers = new(); // Players that got kicked for AFK or Device deconection.
+    
+    private Dictionary<PlayerInput, PlayerController> _playerInputControllerLink = new();// Link the player input to the controller
+    
+    private int _activePlayerCount;
+    
+    public bool isGameRunning = false;
+
+    private void Awake()
+    {
+        PlayerDeviceStorage.OnPlayerConnected.AddListener(RegisterPlayer);
+    }
+
+    public void RegisterPlayer(PlayerInput player)
+    {
+        if (_playerInputControllerLink.ContainsKey(player)) return;
+        
+        PlayerController pc = player.GetComponent<PlayerController>();
+        _playerInputControllerLink.Add(player, pc);
+        _playerStatus.Add(pc, false);
+        pc.onPlayerDeath.AddListener(PlayerDeath);
+        if (isGameRunning)
+        {
+            _queuedPlayer.Add(pc);
+        }
+        else
+        {
+            _players.Add(pc);
+            if (_players.Count >= 2)
+            {
+                DOTween.Sequence().AppendInterval(0.5f).OnComplete(() =>
+                {
+                    GlobalReset();
+                    LevelStart();
+                });
+            }
+            else if(_players.Count > 0)
+            {
+                Debug.Log($"{_players.Count} / 2 players to start the game");
+                // prompt for other players to join
+            }
+        }
+        
+    }
     public void LevelStart()
     {
+        foreach (PlayerController player in _queuedPlayer) _players.Add(player);
+        _queuedPlayer.Clear();
+        _activePlayerCount = _players.Count;
+        
+        isGameRunning = true;
         for (int i  = 0; i < _players.Count; i++)
         {
             _players[i].RespawnPlayer(_activeLevel.GetSpawnPosition(i));
@@ -58,10 +86,11 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
     public void GameEnd()
     {
         if(_changeLevelOnGameEnd) SwitchLevel();
+        isGameRunning = false;
         GlobalReset();
         //ANIMATION
-        DOTween.Sequence().AppendInterval(0.5f).OnComplete(LevelStart);
-
+        if(_autoRestart && _players.Count >= 2) DOTween.Sequence().AppendInterval(0.5f).OnComplete(LevelStart);
+        
     }
 
     public void GlobalReset()
@@ -75,30 +104,31 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
         }
         foreach (PlayerController player in _players)
         {
-            _activePlayers[player] = true;
+            _playerStatus[player] = true;
         }
         _activePlayerCount = _players.Count;
     }
     
     public void SwitchLevel()
     {
-        
+        throw new NotImplementedException();
     }
 
     private void PlayerDeath(PlayerController player)
     {
-        if(_activePlayers[player])
+        if (!_players.Contains(player)) return;
+        if(_playerStatus[player])
         {
             _activePlayerCount--;
-            _activePlayers[player] = false;
+            _playerStatus[player] = false;
         }
-
+        Debug.Log(_activePlayerCount);
         if (_activePlayerCount == 1)
         {
             PlayerController winner = null;
-            foreach(PlayerController p in  _players)
+            foreach(PlayerController p in _players)
             {
-                if (_activePlayers[p])
+                if (_playerStatus[p])
                 {
                     winner = p;
                     break;
@@ -108,10 +138,6 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
             {
                 Debug.Log($"The winner is {winner.gameObject.name}");
                 GameEnd();
-            }
-            else
-            {
-                Debug.Log("Please don't even show this message");
             }
         }
     }

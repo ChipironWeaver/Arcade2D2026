@@ -9,7 +9,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private LevelInstantiator _instantiator;
     [SerializeField] private CameraAutoScroll _cameraAutoScroll;
     [SerializeField] private List<Transform> _playersRespawnPositions;
+
+    public void FadeIn()
+    {
+        throw new NotImplementedException();
+    }
     
+    public void FadeOut()
+    {
+        throw new NotImplementedException();
+    }
     
     public Vector3 GetSpawnPosition(int index)
     {

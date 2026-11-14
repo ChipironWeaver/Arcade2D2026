@@ -11,15 +11,17 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<PlayerController> onPlayerDamage = new();
     public bool isAlive = true;
 
-    public void OnEnable()
+    public void Start()
     {
         _playerHealthController.onPlayerDamage.AddListener(PlayerDamage);
         _playerHealthController.onPlayerDeath.AddListener(PlayerDeath);
+        FreezePlayer(true);
     }
-
+    
     public void ResetPlayer()
     {
         FreezePlayer(false);
+        isAlive = true;
         _playerHealthController.Reset();
         _playerMovementController.Reset();
     }
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerDeath()
     {
         onPlayerDeath.Invoke(this);
-        Debug.Log($"Player {gameObject.name} is dead");
+        isAlive = false;
         FreezePlayer(true);
     }
 

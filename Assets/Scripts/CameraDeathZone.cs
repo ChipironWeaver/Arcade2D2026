@@ -36,7 +36,6 @@ public class CameraDeathZone : MonoBehaviour
         {
             if (other.TryGetComponent<PlayerHealthController>(out var player))
             {
-                Debug.Log($"Player {other.gameObject.name} is dead");
                 player.KillPlayer();
             }
         }
