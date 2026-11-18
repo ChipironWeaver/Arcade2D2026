@@ -30,6 +30,7 @@ public class PlayerMovementController : MonoBehaviour
     [Header("Attack")] 
     [SerializeField] private float _attackTime;
     [SerializeField] private GameObject _slashGameObject;
+    [SerializeField] private float _attackCooldown;
     
     [Header("Dash")]
     [SerializeField] private float _dashForce;
@@ -39,7 +40,6 @@ public class PlayerMovementController : MonoBehaviour
 
     [Header("Kayote and Input Buffer")] 
     [SerializeField] private float _inputBufferTime;
-    
     
     [Header("Debug")]
     [SerializeField] private bool _debugUpdateDebugText;
@@ -64,6 +64,7 @@ public class PlayerMovementController : MonoBehaviour
     private int _currentDashAmount;
     
     private float _currentStateTime;
+    private float _attackCooldownTimer;
     
     private InputBuffer _jumpBuffer;
     private InputBuffer _dashBuffer;
@@ -99,6 +100,11 @@ public class PlayerMovementController : MonoBehaviour
             _currentDashAmount = _dashAmount;
             if (!_dashBuffer.TryInput()) _jumpBuffer.TryInput();
         }
+
+        if (_attackCooldownTimer < _attackCooldown)
+        {
+            _attackCooldownTimer += Time.deltaTime;
+        }
         
         Vector2 newVelocity = Vector2.zero;
         _rb.linearVelocityX -= _currentKnockback.x;
@@ -124,8 +130,9 @@ public class PlayerMovementController : MonoBehaviour
                 }
                 break;
             case PlayerState.Attacking:
+                newVelocity.y = _rb.linearVelocity.y;
+                newVelocity.x = Mathf.MoveTowards(_rb.linearVelocity.x,0 ,currentFriction * _moveSpeed);
                 if (_currentStateTime > _attackTime) SwitchPlayerState(PlayerState.Base);
-                else newVelocity = _rb.linearVelocity / 2;
                 break;
             case PlayerState.Frozen:
                 _currentKnockback = Vector2.zero;
@@ -163,6 +170,7 @@ public class PlayerMovementController : MonoBehaviour
                 break;
             case PlayerState.Attacking:
                 _slashGameObject.SetActive(false);
+                _attackCooldownTimer = 0f;
                 break;
         }
         switch (newState)
@@ -243,7 +251,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (context.performed)
         {
-            if (playerState == PlayerState.Base)
+            if (playerState == PlayerState.Base && _attackCooldownTimer >= _attackCooldown)
             {
                 Attack();
             }

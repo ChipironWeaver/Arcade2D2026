@@ -919,6 +919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d9bb64b193c9a0468b4f1c0028e6d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _baseColor: {r: 1, g: 0.69411767, b: 0.94322306, a: 1}
+  _hueOffsetPerPlayer: 67
   _activeLevel: {fileID: 1449662937}
   _baseCamera: {fileID: 1276604511}
   _changeLevelOnGameEnd: 0
@@ -1358,7 +1360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &959874488
 RectTransform:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerHealthController _playerHealthController;
     [SerializeField] private PlayerMovementController _playerMovementController;
+    [SerializeField] private List<SpriteRenderer> _coloredSprites;
     public UnityEvent<PlayerController> onPlayerDeath = new();
     public UnityEvent<PlayerController> onPlayerDamage = new();
     public bool isAlive = true;
@@ -50,4 +52,11 @@ public class PlayerController : MonoBehaviour
         _playerMovementController.FreezePlayer(freeze);
     }
     
+    public void SetColor(Color color)
+    {
+        foreach (SpriteRenderer sprite in _coloredSprites)
+        {
+            sprite.color = color;
+        }
+    }
 }

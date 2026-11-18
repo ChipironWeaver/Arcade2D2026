@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 4039323862455622824}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.019, y: -0.028, z: 0}
+  m_LocalPosition: {x: 0.015, y: 0.099, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -323,6 +323,7 @@ MonoBehaviour:
   _raycastGroundDistance: 0.95
   _attackTime: 0.05
   _slashGameObject: {fileID: 6503777240551507401}
+  _attackCooldown: 0.5
   _dashForce: 35
   _dashTime: 0.1
   _dashAmount: 1
@@ -553,6 +554,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _playerHealthController: {fileID: 4992783990515733210}
   _playerMovementController: {fileID: 2709844319819125279}
+  _coloredSprites:
+  - {fileID: 2516115714255223550}
   onPlayerDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -772,7 +775,7 @@ Transform:
   m_GameObject: {fileID: 6503777240551507401}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.286, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -816,7 +819,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0.5}
-    oldSize: {x: 1.36, y: 1.8}
+    oldSize: {x: 2, y: 2.6470587}
     newSize: {x: 0.34, y: 0.45}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -824,16 +827,16 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0.9}
+    - - {x: 0.019740403, y: 1.3145498}
       - {x: 0, y: 0.45999998}
       - {x: 0.0467643, y: -0.837135}
       - {x: 0.07116709, y: -0.8698672}
-      - {x: 0.08986727, y: -0.9187002}
-      - {x: 0.9277986, y: -0.794032}
-      - {x: 1.3350663, y: -0.45429736}
-      - {x: 1.3585503, y: 0.059416365}
-      - {x: 1.1293639, y: 0.43610066}
-      - {x: 0.5179314, y: 0.8064988}
+      - {x: 0.19843987, y: -1.3628609}
+      - {x: 0.93766886, y: -1.1987116}
+      - {x: 1.6903951, y: -0.9872902}
+      - {x: 2.0198565, y: -0.2959122}
+      - {x: 1.8202804, y: 0.4657113}
+      - {x: 0.8239088, y: 1.1716976}
   m_UseDelaunayMesh: 1
 --- !u!212 &8204376010641450748
 SpriteRenderer:
