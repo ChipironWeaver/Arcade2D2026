@@ -1,25 +1,39 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class UIPlayerHealth : MonoBehaviour
 {
     [SerializeField] private PlayerHealthController _targetPlayer;
-    [SerializeField] private TextMeshProUGUI _overchargeText;
-
-    public void Start()
+    [SerializeField] private List<Image> _coloredImages;
+    [FormerlySerializedAs("_overchargeText")] [SerializeField] private TextMeshProUGUI _targetText;
+    
+    private void UpdateHealth()
     {
-        if (!_targetPlayer)
-        {
-            enabled = false;
-            return;
-        }
+        _targetText.text = $"{_targetPlayer.currentOverCharge} %";
+    }
+
+    public void Link(PlayerHealthController playerHealthController)
+    {
+        Unlink();
+        _targetPlayer = playerHealthController;
         _targetPlayer.onPlayerDamage.AddListener(UpdateHealth);
         UpdateHealth();
     }
-
-    private void UpdateHealth()
+    
+    public void Unlink()
     {
-        _overchargeText.text = $"{_targetPlayer.currentOverCharge} %";
+        if(_targetPlayer) _targetPlayer.onPlayerDamage.RemoveListener(UpdateHealth);
+    }
+    
+    public void SetColor(Color color)
+    {
+        foreach (Image image in _coloredImages)
+        {
+            image.color = color;
+        }
     }
 }
