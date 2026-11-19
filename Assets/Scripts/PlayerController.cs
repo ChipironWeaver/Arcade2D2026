@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<PlayerController> onPlayerDeath = new();
     public UnityEvent<PlayerController> onPlayerDamage = new();
     public bool isAlive = true;
+    
+    public PlayerHealthController PlayerHealthController => _playerHealthController;
+    public PlayerMovementController PlayerMovementController => _playerMovementController;
+    
 
     public void Start()
     {

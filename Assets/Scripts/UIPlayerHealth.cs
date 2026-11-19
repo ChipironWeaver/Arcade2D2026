@@ -11,8 +11,17 @@ public class UIPlayerHealth : MonoBehaviour
     [SerializeField] private List<Image> _coloredImages;
     [FormerlySerializedAs("_overchargeText")] [SerializeField] private TextMeshProUGUI _targetText;
     
-    private void UpdateHealth()
+    public bool IsLinked => _targetPlayer;
+
+    private void Start()
     {
+        if(_targetPlayer) Link(_targetPlayer);
+        else Unlink();
+    }
+
+    public void UpdateHealth()
+    {
+        if (!_targetPlayer) return;
         _targetText.text = $"{_targetPlayer.currentOverCharge} %";
     }
 
@@ -27,6 +36,9 @@ public class UIPlayerHealth : MonoBehaviour
     public void Unlink()
     {
         if(_targetPlayer) _targetPlayer.onPlayerDamage.RemoveListener(UpdateHealth);
+        SetColor(Color.clear);
+        _targetText.text = "Press a key to join";
+        _targetPlayer = null;
     }
     
     public void SetColor(Color color)

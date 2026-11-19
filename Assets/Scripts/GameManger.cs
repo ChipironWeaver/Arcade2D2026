@@ -18,19 +18,21 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
     [SerializeField] private bool _autoRestart;
     
     [SerializeField] private List<LevelManager> _levels; 
-
+    [SerializeField] private List<UIPlayerHealth> _playerHealthsUI;
+    [Header("Player Memory")]
     [SerializeField, ReadOnly] private List<PlayerController> _players = new(); // Players that are playing the game
     [SerializeField, ReadOnly]
     private Dictionary<PlayerController, bool> _playerStatus = new(); // Show the status of the player : true = alive / false = dead
-    
     [SerializeField, ReadOnly]
     private List<PlayerController> _queuedPlayer = new(); // Players that want to join the game
     [SerializeField, ReadOnly]
     private List<PlayerController> _afkPlayers = new(); // Players that haven't played an input or had there device deconected.
     [SerializeField, ReadOnly]
     private List<PlayerController> _disabledPlayers = new(); // Players that got kicked for AFK or Device deconection.
-    
+    [SerializeField, ReadOnly]
     private Dictionary<PlayerInput, PlayerController> _playerInputControllerLink = new();// Link the player input to the controller
+    
+    private Dictionary<PlayerController,UIPlayerHealth> _playerLinkUIPlayerHealths= new ();
     
     private int _activePlayerCount;
     
@@ -56,6 +58,15 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
         Debug.Log($"h: {newH}, s: {s}, v: {v}");
         Color color = Color.HSVToRGB( newH, s, v);
         pc.SetColor(color);
+        foreach (UIPlayerHealth uiPlayerHealth in _playerHealthsUI)
+        {
+            if (!uiPlayerHealth.IsLinked)
+            {
+                uiPlayerHealth.Link(pc.PlayerHealthController);
+                uiPlayerHealth.SetColor(color);
+                break;
+            }
+        }
         
         if (isGameRunning)
         {
@@ -120,6 +131,11 @@ public class GameManger : MonoBehaviourSingleton<GameManger>
         {
             player.ResetPlayer();
             _playerStatus[player] = true;
+        }
+
+        foreach (UIPlayerHealth playerHealth in _playerHealthsUI)
+        {
+            playerHealth.UpdateHealth();
         }
         Debug.Log("Global Reset");
         _activePlayerCount = _players.Count;
