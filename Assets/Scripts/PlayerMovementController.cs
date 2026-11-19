@@ -307,11 +307,13 @@ public class PlayerMovementController : MonoBehaviour
     public void FreezePlayer(bool freeze)
     {
         SwitchPlayerState(freeze ? PlayerState.Frozen : PlayerState.Base, true);        
+        _slashGameObject.SetActive(false);
     }
 
 
     public void Reset()
     {
+        _slashGameObject.SetActive(false);
         SwitchPlayerState(PlayerState.Base);
         if(_rb)
         {

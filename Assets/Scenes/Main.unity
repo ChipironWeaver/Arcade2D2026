@@ -748,6 +748,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 218281483}
     m_Modifications:
+    - target: {fileID: 213002192915481023, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5175337938718203047, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -830,15 +834,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5894489692014273481, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Name
-      value: PlayerHealth (3)
+      value: PlayerHealthTopRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 65.4
+      value: -6.3
       objectReference: {fileID: 0}
     - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -5.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8483555098371348976, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Pivot.x
@@ -1080,9 +1096,9 @@ MonoBehaviour:
   _levels: []
   _playerHealthsUI:
   - {fileID: 1271290746}
+  - {fileID: 878619381}
   - {fileID: 2065595633}
   - {fileID: 2092674462}
-  - {fileID: 878619381}
   _players: []
   _playerStatus: []
   _queuedPlayer: []
@@ -1819,15 +1835,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5894489692014273481, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Name
-      value: PlayerHealth (1)
+      value: PlayerHealthBottomLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 11.7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -53.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8483555098371348976, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_LocalScale.y
@@ -2252,6 +2280,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 218281483}
     m_Modifications:
+    - target: {fileID: 213002192915481023, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5175337938718203047, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -2334,15 +2366,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5894489692014273481, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Name
-      value: PlayerHealth (2)
+      value: PlayerHealthBottomRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.5
+      value: -9.1
       objectReference: {fileID: 0}
     - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -52
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8483555098371348976, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Pivot.x
@@ -2740,6 +2796,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 218281483}
     m_Modifications:
+    - target: {fileID: 213002192915481023, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 44
+      objectReference: {fileID: 0}
     - target: {fileID: 5175337938718203047, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2822,7 +2882,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5894489692014273481, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
       propertyPath: m_Name
-      value: PlayerHealth
+      value: PlayerHealthTopLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 7.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875606073651799441, guid: 499280912daaf5f4bb5c4be718bb958d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
