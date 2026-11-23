@@ -1,33 +1,58 @@
+using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Collider2D))]
 public class DamageSource : MonoBehaviour
 {
-    [SerializeField,Tag] private string _playerTag = "Player";
-    [SerializeField] private List<GameObject> _objectBlacklist;
+    [HorizontalLine,Header("Header Player Damager"), Space(7)]
+    [SerializeField] private bool _canDamagePlayer;
+    [SerializeField,Tag,ShowIf("_canDamagePlayer")] 
+    private string _playerTag = "Player";
+    [SerializeField,ShowIf("_canDamagePlayer")] 
+    private List<GameObject> _objectBlacklist;
+    [SerializeField,ShowIf("_canDamagePlayer")] 
+    private bool _useTargetXPosition;
+    [SerializeField,ShowIf("_canDamagePlayer")] 
+    private bool _useTargetYPosition;
+    [SerializeField,ShowIf("_canDamagePlayer")] 
+    private Vector2 _positionOffset;
     
-    [SerializeField] private bool _useTargetXPosition;
-    [SerializeField] private bool _useTargetYPosition;
+    [SerializeField,ShowIf("_canDamagePlayer")] 
+    private bool _overrideXPosition;
+    [SerializeField,ShowIf(EConditionOperator.And, "_canDamagePlayer" , "_overrideXPosition")] 
+    private float _xPosition;
+    [SerializeField,ShowIf("_canDamagePlayer")] 
+    private bool _overrideYPosition;
+    [SerializeField,ShowIf(EConditionOperator.And, "_canDamagePlayer" , "_overrideYPosition")] 
+    private float _yPosition;
     
-    [SerializeField] private Vector2 _positionOffset;
+    [SerializeField,ShowIf("_canDamagePlayer")] 
+    private int _damageAmount;
+
+    [HorizontalLine,Header("Environement"), Space(7)] [SerializeField]
+    private string _notImplemented;
     
-    [SerializeField] private bool _overrideXPosition;
-    [SerializeField,ShowIf("_overrideXPosition")] private float _xPosition;
-    [SerializeField] private bool _overrideYPosition;
-    [SerializeField,ShowIf("_overrideYPosition")] private float _yPosition;
     
-    [SerializeField] private int _damageAmount;
     
-    public UnityEvent onTargetHit;
+    [FormerlySerializedAs("onTargetHit")] public UnityEvent onPlayerHit;
+
+    private List<GameObject> _hitObjects = new();
+
+    public void OnEnable()
+    {
+        _hitObjects.Clear();
+    }
 
     void OnTriggerStay2D(Collider2D other)
     {
         if (_objectBlacklist.Contains(other.gameObject)) return;
-        if (other.CompareTag(_playerTag))
+        if(_hitObjects.Contains(other.gameObject)) return;
+        if (other.CompareTag(_playerTag) && _canDamagePlayer)
         {
             if (other.TryGetComponent<PlayerHealthController>(out var player))
             {
@@ -43,8 +68,10 @@ public class DamageSource : MonoBehaviour
                 
                 player.Damage(_damageAmount,position);
                 
-                onTargetHit.Invoke();
+                onPlayerHit.Invoke();
+                
             }
         }
+        
     }
 }

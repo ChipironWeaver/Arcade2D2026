@@ -910,6 +910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f1a218a628b3049af3d168f1e869fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageSource
+  _canDamagePlayer: 1
   _playerTag: Player
   _objectBlacklist:
   - {fileID: 4211340032664995011}
@@ -921,7 +922,7 @@ MonoBehaviour:
   _overrideYPosition: 0
   _yPosition: 0
   _damageAmount: 20
-  onTargetHit:
+  onPlayerHit:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &6577711085455644448
