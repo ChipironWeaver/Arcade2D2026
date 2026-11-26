@@ -322,7 +322,7 @@ MonoBehaviour:
   _raycastGroundSize: {x: 0.99, y: 0.2}
   _raycastGroundDistance: 0.95
   _attackTime: 0.05
-  _slashGameObject: {fileID: 6503777240551507401}
+  slashObject: {fileID: 8932951310841290366}
   _attackCooldown: 0.5
   _dashForce: 35
   _dashTime: 0.1
@@ -922,7 +922,12 @@ MonoBehaviour:
   _overrideYPosition: 0
   _yPosition: 0
   _damageAmount: 20
+  _environementTag: 
+  _powerUpTag: PowerUp
   onPlayerHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPowerUpHit:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &6577711085455644448

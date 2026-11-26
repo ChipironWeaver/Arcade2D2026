@@ -9,11 +9,11 @@ using Vector2 = UnityEngine.Vector2;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovementController : MonoBehaviour
 {
-    [Header("References")] 
+    [Header("References"),HorizontalLine,Space(7)] 
     [SerializeField] private Transform _rotatingPart;
     [SerializeField] private Animator _animator;
     
-    [Header("Movement Settings")]
+    [Header("Movement Settings"),HorizontalLine,Space(7)]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField,Range(0,1)] private float _groundFriction;
@@ -22,26 +22,26 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField,Range(0,1)] private float _yKnockbackDecayMultiplier;
     [SerializeField] private Vector2 _knockbackMultiplier;
     
-    [Header("Ground Check Parameter")]
+    [Header("Ground Check Parameter"),HorizontalLine,Space(7)]
     [SerializeField] private LayerMask _raycastGroundLayer;
     [SerializeField] private Vector2 _raycastGroundSize;
     [SerializeField] private float _raycastGroundDistance;
 
-    [Header("Attack")] 
+    [Header("Attack"),HorizontalLine,Space(7)] 
     [SerializeField] private float _attackTime;
-    [SerializeField] private GameObject _slashGameObject;
+    public DamageSource slashObject;
     [SerializeField] private float _attackCooldown;
     
-    [Header("Dash")]
+    [Header("Dash"),HorizontalLine,Space(7)]
     [SerializeField] private float _dashForce;
     [SerializeField] private float _dashTime;
     [SerializeField] private int _dashAmount;
     [SerializeField,CurveRange(0,0,1,1,EColor.Pink)] private AnimationCurve _dashCurve;
 
-    [Header("Kayote and Input Buffer")] 
+    [Header("Kayote and Input Buffer"),HorizontalLine,Space(7)] 
     [SerializeField] private float _inputBufferTime;
     
-    [Header("Debug")]
+    [Header("Debug"),HorizontalLine,Space(7)]
     [SerializeField] private bool _debugUpdateDebugText;
     [SerializeField] private TextMeshProUGUI _debugIsGroundedText;
     [SerializeField] private TextMeshProUGUI _debugIsInputBufferingText;
@@ -169,7 +169,7 @@ public class PlayerMovementController : MonoBehaviour
                 if(isGrounded) _currentDashAmount = _dashAmount;
                 break;
             case PlayerState.Attacking:
-                _slashGameObject.SetActive(false);
+                slashObject.gameObject.SetActive(false);
                 _attackCooldownTimer = 0f;
                 break;
         }
@@ -192,7 +192,7 @@ public class PlayerMovementController : MonoBehaviour
                 }
                 break;
             case PlayerState.Attacking:
-                _slashGameObject.SetActive(true);
+                slashObject.gameObject.SetActive(true);
                 break;
         }
 
@@ -307,13 +307,13 @@ public class PlayerMovementController : MonoBehaviour
     public void FreezePlayer(bool freeze)
     {
         SwitchPlayerState(freeze ? PlayerState.Frozen : PlayerState.Base, true);        
-        _slashGameObject.SetActive(false);
+        slashObject.gameObject.SetActive(false);
     }
 
 
     public void Reset()
     {
-        _slashGameObject.SetActive(false);
+        slashObject.gameObject.SetActive(false);
         SwitchPlayerState(PlayerState.Base);
         if(_rb)
         {

@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,17 +12,46 @@ public class CameraAutoScroll : MonoBehaviour
     [SerializeField] private Vector2 _gizmoSize;
     
     [SerializeField,ReadOnly] private float _scrollSpeed;
-    private Vector3 _scrollDirectionNormalized;
 
+    [SerializeField, Range(0, 1)] private float _scrollEaseDuration;
+    [SerializeField] private Ease _scrollEaseIn;
+    [SerializeField] private Ease _scrollEaseOut;
+    private Vector3 _scrollDirectionNormalized;
+    private float _scrollMultiplier = 1f;
+
+    private Sequence _multSequence;
+    
     private void Start()
     {
         Reset();
+        Actions.CameraMoveMultiplier += HandleMoveMultiplier;
+    }
+
+    private void HandleMoveMultiplier(float multiplier, float duration)
+    {
+        if(_multSequence != null)
+        {
+            if (_multSequence.active)
+            {
+                _multSequence.Kill();
+                _scrollMultiplier = 1;
+            }
+        }
+        
+        _multSequence = DOTween.Sequence();
+        _multSequence.Append(DOTween.To(() => _scrollMultiplier, x => _scrollMultiplier = x,
+            multiplier, duration * (_scrollEaseDuration / 2))).SetEase(_scrollEaseIn);
+        _multSequence.AppendCallback(() => { _scrollMultiplier = multiplier; });
+        _multSequence.AppendInterval(duration * (1 - _scrollEaseDuration));
+        _multSequence.Append(DOTween.To(() => _scrollMultiplier, x => _scrollMultiplier = x,
+            1, duration * (_scrollEaseDuration / 2))).SetEase(_scrollEaseOut);
+        _multSequence.AppendCallback(() => { _scrollMultiplier = 1; });
     }
 
     private void FixedUpdate()
     {
         Vector3 additionalDirection = _scrollDirectionNormalized * (_scrollSpeed / 10000);
-        transform.position += additionalDirection;
+        transform.position += additionalDirection * _scrollMultiplier;
         _scrollSpeed += _scrollSpeedIncrease;
     }
 

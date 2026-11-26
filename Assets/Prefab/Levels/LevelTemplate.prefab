@@ -1164,3 +1164,6 @@ MonoBehaviour:
   scrollDirection: {x: 3, y: 1}
   _gizmoSize: {x: 38.2, y: 500}
   _scrollSpeed: 0
+  _scrollEaseDuration: 0.25
+  _scrollEaseIn: 5
+  _scrollEaseOut: 6

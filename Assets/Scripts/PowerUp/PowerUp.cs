@@ -11,6 +11,7 @@ namespace PowerUp
         public bool isUsed;
         public void Activate(PlayerController playerController)
         {
+            Debug.Log($"PowerUp Activated: {gameObject.name}");
             if(isUsed) return;
             isUsed = true;
             ActivatePowerUp(playerController);

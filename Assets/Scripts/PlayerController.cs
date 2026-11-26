@@ -21,9 +21,15 @@ public class PlayerController : MonoBehaviour
     {
         _playerHealthController.onPlayerDamage.AddListener(PlayerDamage);
         _playerHealthController.onPlayerDeath.AddListener(PlayerDeath);
+        _playerMovementController.slashObject.onPowerUpHit.AddListener(HandlePowerUp);
         FreezePlayer(true);
     }
-    
+
+    private void HandlePowerUp(PowerUp.PowerUp powerUp)
+    {
+        powerUp.Activate(this);
+    }
+
     public void ResetPlayer()
     {
         FreezePlayer(false);

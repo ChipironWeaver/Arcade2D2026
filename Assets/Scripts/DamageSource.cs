@@ -34,12 +34,15 @@ public class DamageSource : MonoBehaviour
     [SerializeField,ShowIf("_canDamagePlayer")] 
     private int _damageAmount;
 
-    [HorizontalLine,Header("Environement"), Space(7)] [SerializeField]
-    private string _notImplemented;
+    [HorizontalLine,Header("Environement"), Space(7)] 
+    [SerializeField,Tag] private string _environementTag;
+    
+    [HorizontalLine,Header("Power Up"), Space(7)]
+    [SerializeField,Tag] private string _powerUpTag;
     
     
-    
-    [FormerlySerializedAs("onTargetHit")] public UnityEvent onPlayerHit;
+    public UnityEvent onPlayerHit;
+    public UnityEvent<PowerUp.PowerUp> onPowerUpHit = new();
 
     private List<GameObject> _hitObjects = new();
 
@@ -69,9 +72,14 @@ public class DamageSource : MonoBehaviour
                 player.Damage(_damageAmount,position);
                 
                 onPlayerHit.Invoke();
-                
             }
         }
-        
+        else if (other.CompareTag(_powerUpTag))
+        {
+            if (other.TryGetComponent(out PowerUp.PowerUp powerUp))
+            {
+                onPowerUpHit.Invoke(powerUp);
+            }
+        }
     }
 }
